@@ -30,6 +30,7 @@ const { patchPackages } = require('./build-modules-js/init/patches.es6.js');
 const { cleanVendors } = require('./build-modules-js/init/cleanup-media.es6.js');
 const { recreateMediaFolder } = require('./build-modules-js/init/recreate-media.es6');
 const { watching } = require('./build-modules-js/watch.es6.js');
+const { changedCssFiles } = require('./build-modules-js/watcher.es6.js');
 const { mediaManager, watchMediaManager } = require('./build-modules-js/javascript/build-com_media-js.es6');
 const { compressFiles } = require('./build-modules-js/compress.es6.js');
 const { versioning } = require('./build-modules-js/versioning.es6.js');
@@ -115,9 +116,13 @@ if (cliOptions.compileJs) {
     .catch((err) => handleError(err, 1));
 }
 
-// Compress/transpile the javascript files
+// Compress/transpile the javascript/SCSS files
 if (cliOptions.watch) {
   watching(Program.args[0]);
+  var changedFiles = changedCssFiles(Program.args[0]);
+  changedFiles.changed.forEach((changedFile) => {
+    debounce(handleScssFile(changedFile), 300);
+  });
 }
 
 // Gzip js/css files
