@@ -35,6 +35,8 @@ const { mediaManager, watchMediaManager } = require('./build-modules-js/javascri
 const { compressFiles } = require('./build-modules-js/compress.es6.js');
 const { versioning } = require('./build-modules-js/versioning.es6.js');
 const { Timer } = require('./build-modules-js/utils/timer.es6.js');
+const { debounce } = require('./build-modules-js/utils/debounce.es6.js');
+const { handleScssFile } = require('./build-modules-js/stylesheets/handle-scss.es6.js');
 
 // The settings
 const options = require('../package.json');
